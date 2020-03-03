@@ -1,16 +1,24 @@
 <form [formGroup]="filters">
-  <input type="text" formControlName="flexName">
-  <select formControlName="name">
-    <option selected value=""></option>
-    <option *ngFor="let name of names" [ngValue]="name">{{name}}</option>
-  </select>
-  <select formControlName="species">
-    <option selected value=""></option>
-    <option *ngFor="let specie of species" [ngValue]="specie">{{specie}}</option>
-  </select>
-  <select formControlName="gender">
-    <option selected value=""></option>
-    <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
-  </select>
+  <div class="info-wrap" placeholder="Search name">
+    <input type="text" class="form-control" formControlName="flexName">
+  </div>
+  <div class="info-wrap" placeholder="Filter name">
+    <select class="form-control" formControlName="name">
+      <option selected value=""></option>
+      <option *ngFor="let name of names" [ngValue]="name">{{name}}</option>
+    </select>
+  </div>
+  <div class="info-wrap" placeholder="Filter specie">
+    <select class="form-control" formControlName="species">
+      <option selected value=""></option>
+      <option *ngFor="let specie of species" [ngValue]="specie">{{specie}}</option>
+    </select>
+  </div>
+  <div class="info-wrap" placeholder="Filter gender">
+    <select class="form-control" formControlName="gender">
+      <option selected value=""></option>
+      <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
+    </select>
+  </div>
   <button class="btn btn-sm btn-warning" (click)="clearForm()">clear</button>
 </form>

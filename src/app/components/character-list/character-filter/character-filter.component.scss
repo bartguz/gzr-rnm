@@ -1,0 +1,39 @@
+form {
+  padding-bottom: 8px;
+
+  input {
+    height: 41px;
+  }
+
+  >.info-wrap {
+    display: inline-block;
+    margin: 0 10px;
+    width: auto;
+    position: relative;
+
+    >.form-control {
+      width: auto;
+    }
+
+    &::before {
+      display: block;
+      position: absolute;
+      color: #49505788;
+      font-size: 80%;
+      bottom: -1.1rem;
+      content: attr(placeholder);
+    }
+  }
+
+  >:first-child {
+    margin-left: 0;
+  }
+
+  >:last-child {
+    margin-right: 0;
+  }
+
+  >.btn {
+    margin-bottom: 0;
+  }
+}
