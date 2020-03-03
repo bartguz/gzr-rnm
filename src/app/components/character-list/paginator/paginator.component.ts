@@ -18,7 +18,7 @@ export class PaginatorComponent {
   }
 
   get hasNextPage(): boolean {
-    return !!(this.pageInfo && this.pageInfo.next);
+    return !(this.pageInfo && this.page * 20 >= this.pageInfo.count);
   }
 
   get currentInfo(): string {
