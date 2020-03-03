@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy, ChangeDetectionStra
 import { FormGroup, FormControl } from '@angular/forms';
 import { CharacterFilter } from '../../../models/character-filter';
 import { Subscription, combineLatest } from 'rxjs';
-import { debounceTime, tap, startWith, skip, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, tap, startWith, skip, distinctUntilChanged, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-character-filter',
@@ -17,7 +17,7 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
   private formSub: Subscription;
 
   // no real way to get full data for dropdowns (aside from getting all pages), so just a few examples in dropdowns
-  // from api docs
+  // gender options come from api docs
   genders: string[] = ['Male', 'Female', 'Genderless', 'unknown'];
   species: string[] = ['Human', 'Alien', 'Humanoid', 'Robot'];
   names: string[] = ['Rick', 'Beth', 'Jerry', 'Morty', 'Summer'];
@@ -49,6 +49,8 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
     }
     return characterFilter;
   }
+  // requirements sounded a bit unclear - both search and filter by name.
+  // decided to allow usage of both dropdown and input, but not at the same time - one replaces another.
   ngOnInit(): void {
     const flexNameChanges = this.filters.get('flexName').valueChanges.pipe(startWith(''), debounceTime(400), distinctUntilChanged());
     const nameChanges = this.filters.get('name').valueChanges.pipe(startWith(''));
@@ -58,8 +60,9 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
       this.filters.get('species').valueChanges.pipe(startWith('')),
       this.filters.get('gender').valueChanges.pipe(startWith(''))])
       .pipe(skip(1), map(x => this.prepareFilter(x)), distinctUntilChanged(this.compareObjects)).subscribe(x => this.emitFilterChange(x));
-    this.flexNameSub = flexNameChanges.subscribe(x => this.filters.get('name').reset('', { emitEvent: false }));
-    this.nameSub = nameChanges.subscribe(x => this.filters.get('flexName').reset('', { emitEvent: false }));
+    // preventing clearing loop
+    this.flexNameSub = flexNameChanges.pipe(filter(x => x)).subscribe(x => this.filters.get('name').reset(''));
+    this.nameSub = nameChanges.pipe(filter(x => x)).subscribe(x => this.filters.get('flexName').reset(''));
   }
 
   ngOnDestroy() {
@@ -68,8 +71,8 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
     this.nameSub.unsubscribe();
   }
 
-  emitFilterChange(filter: CharacterFilter) {
-    this.filterChange.emit(filter);
+  emitFilterChange(characterFilter: CharacterFilter) {
+    this.filterChange.emit(characterFilter);
   }
   clearForm() {
     this.filters.reset();

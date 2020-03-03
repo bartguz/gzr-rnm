@@ -14,7 +14,7 @@ export class CharacterApiService {
 
   constructor(private http: HttpClient) { }
 
-  private filterToQuery(filter: any) {
+  private filterToQuery(filter: CharacterFilter | { page: number }) {
     if (!filter) {
       return '';
     }

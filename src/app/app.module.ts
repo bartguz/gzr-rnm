@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { CharacterListComponent } from './components/character-list/character-li
 import { CharacterDetailsComponent } from './components/character-details/character-details.component';
 import { CharacterFilterComponent } from './components/character-list/character-filter/character-filter.component';
 import { PaginatorComponent } from './components/character-list/paginator/paginator.component';
+import { NoCacheInterceptor } from './services/no-cache.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,13 @@ import { PaginatorComponent } from './components/character-list/paginator/pagina
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NoCacheInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

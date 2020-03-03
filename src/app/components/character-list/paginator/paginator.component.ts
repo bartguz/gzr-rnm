@@ -14,7 +14,7 @@ export class PaginatorComponent {
 
   // api accepts fractions. surprising but convenient
   get hasPreviousPage(): boolean {
-    return this.page > 1.5;
+    return this.page > 1;
   }
 
   get hasNextPage(): boolean {
