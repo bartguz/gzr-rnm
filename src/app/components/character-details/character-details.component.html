@@ -1,0 +1,8 @@
+<ng-container *ngIf="character$ | async as character; else loading;">
+  <img [src]="character.image">
+  <span>{{character.name}}</span>
+  <span>{{character.gender}}</span>
+  <span>{{character.species}}</span>
+</ng-container>
+
+<ng-template #loading>Loading character</ng-template>

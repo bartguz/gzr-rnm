@@ -1,0 +1,16 @@
+<form [formGroup]="filters">
+  <input type="text" formControlName="flexName">
+  <select formControlName="name">
+    <option selected value=""></option>
+    <option *ngFor="let name of names" [ngValue]="name">{{name}}</option>
+  </select>
+  <select formControlName="species">
+    <option selected value=""></option>
+    <option *ngFor="let specie of species" [ngValue]="specie">{{specie}}</option>
+  </select>
+  <select formControlName="gender">
+    <option selected value=""></option>
+    <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
+  </select>
+  <button class="btn btn-sm btn-warning" (click)="clearForm()">clear</button>
+</form>

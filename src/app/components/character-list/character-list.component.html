@@ -1,0 +1,11 @@
+<app-paginator [pageInfo]="pageInfo$ | async" [page]="page" (pageChange)="updatePage($event)"></app-paginator>
+<app-character-filter (filterChange)="updateFilter($event)"></app-character-filter>
+<table class="table table-borderless table-striped table-hover">
+  <tbody>
+    <tr *ngFor="let character of characterList$ | async" (click)="goToDetails(character.id)">
+      <td>{{character.name}}</td>
+      <td>{{character.gender}}</td>
+      <td>{{character.species}}</td>
+    </tr>
+  </tbody>
+</table>
